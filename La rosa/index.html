@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Rosa - Pâtisserie depuis 1947</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: url('background.jpg') center/cover fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content:"";
+            position:fixed; top:0; left:0; right:0; bottom:0;
+            background: rgba(245,240,220,0.88);
+            backdrop-filter: blur(4px);
+            z-index:-1;
+        }
+
+        /* ================= HEADER ================= */
+        header {
+            background: #8B4513;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .logo-circle {
+            width: 110px;
+            height: 110px;
+            padding: 8px;
+            background: linear-gradient(135deg, #F5F5DC, #D2B48C);
+            border-radius: 50%;
+            border: 4px solid #F5F5DC;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .logo-circle img {
+            width: 100%; height: 100%; object-fit: contain; border-radius: 50%; background:#fff;
+        }
+        .header-title {
+            text-align: center;
+            color: #F5F5DC;
+            flex: 1;
+        }
+        .header-title h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.2rem;
+            margin: 0;
+        }
+        .header-title p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+            margin-top: -8px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        #search {
+            padding: 0.7rem 1.2rem;
+            width: 280px;
+            max-width: 100%;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-about {
+            background: #F5F5DC;
+            color: #8B4513;
+            border: none;
+            padding: 0.7rem 1.8rem;
+            border-radius: 30px;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-about:hover { background:#fff; transform:translateY(-3px); }
+
+        /* ================= CONTAINER ================= */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: flex;
+            gap: 2rem;
+        }
+        aside {
+            width: 300px;
+            background: rgba(210,180,140,0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .sidebar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .specialite-btn {
+            background: #8B4513;
+            color: #F5F5DC;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            cursor: pointer;
+        }
+        .menu-btn {
+            width: 100%;
+            background: #8B4513;
+            color: #F5F5DC;
+            border: none;
+            padding: 1rem;
+            text-align: left;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            cursor: pointer;
+        }
+        .submenu {
+            padding-left: 1rem;
+            display: none;
+        }
+        .submenu.active { display: block; }
+        .submenu-btn {
+            width: 100%;
+            background: #F5F5DC;
+            color: #8B4513;
+            border: none;
+            padding: 0.8rem 1rem;
+            margin: 0.3rem 0;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .submenu-btn:hover, .menu-btn:hover, .specialite-btn:hover { background:#A0522D; color:#fff; }
+
+        main { flex:1; padding:2rem; }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px,1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .product {
+            background:#fff;
+            border-radius:15px;
+            overflow:hidden;
+            box-shadow:0 8px 25px rgba(0,0,0,0.12);
+            transition:0.3s;
+        }
+        .product:hover { transform:translateY(-12px); }
+        .product img { width:100%; height:190px; object-fit:cover; }
+        .product-info { padding:1.2rem; text-align:center; }
+        .product-info h4 { color:#8B4513; margin-bottom:0.5rem; }
+        .price { font-weight:bold; color:#8B4513; font-size:1.2rem; }
+
+        /* ================= FOOTER ================= */
+        footer {
+            background:#8B4513;
+            color:#F5F5DC;
+            padding:3rem 2rem;
+            text-align:center;
+            margin-top:4rem;
+        }
+        .footer-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:2rem;
+            max-width:1200px;
+            margin:0 auto 2rem;
+        }
+        .footer-column h3 { font-family:'Playfair Display',serif; margin-bottom:1rem; }
+        .history-toggle { background:rgba(255,255,255,0.2); padding:1rem; border-radius:10px; cursor:pointer; }
+        .history-text { display:none; margin-top:1rem; line-height:1.7; }
+
+        @media (max-width:992px) {
+            header { flex-direction:column; text-align:center; }
+            .header-right { margin-top:1rem; }
+            .container { flex-direction:column; }
+            aside { width:100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-circle">
+            <img src="logo.jpeg" alt="Logo La Rosa">
+        </div>
+
+        <div class="header-title">
+            <h1>La Rosa</h1>
+            <p>Fondée en 1947</p>
+        </div>
+
+        <div class="header-right">
+            <input type="text" id="search" placeholder="Rechercher gâteau, croissant…">
+            <button class="btn-about" onclick="document.getElementById('footer').scrollIntoView({behavior:'smooth'})">
+                À propos de nous
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside>
+            <h2 class="sidebar-title">Découvrir nos produits</h2>
+
+            <div class="specialite-btn" data-cat="specialites">Spécialités La Rosa</div>
+
+            <button class="menu-btn" data-target="sucre">Sucré</button>
+            <div class="submenu" id="sucre">
+                <button class="submenu-btn" data-cat="gateaux">Gâteaux</button>
+                <button class="submenu-btn" data-cat="biscuits">Biscuits</button>
+                <button class="submenu-btn" data-cat="millefeuilles">Millefeuilles</button>
+                <button class="submenu-btn" data-cat="tartes">Tartes</button>
+                <button class="submenu-btn" data-cat="petits-fours">Petits Fours</button>
+                <button class="submenu-btn" data-cat="macaron-marocain">Macaron Marocain</button>
+                <button class="submenu-btn" data-cat="croissants">Croissants</button>
+            </div>
+
+            <button class="menu-btn" data-target="sale">Salé</button>
+            <div class="submenu" id="sale">
+                <button class="submenu-btn" data-cat="pates">Pâtés</button>
+                <button class="submenu-btn" data-cat="quiches">Quiches</button>
+                <button class="submenu-btn" data-cat="pizzas">Pizzas</button>
+                <button class="submenu-btn" data-cat="sale-kg">Salé en kg</button>
+                <button class="submenu-btn" data-cat="sandwiches">Sandwiches & Burgers</button>
+                <button class="submenu-btn" data-cat="souffles">Soufflés</button>
+            </div>
+
+            <button class="menu-btn" data-target="jus">Jus Frais</button>
+            <div class="submenu" id="jus">
+                <button class="submenu-btn" data-cat="jus-orange">Jus d'Orange</button>
+                <button class="submenu-btn" data-cat="jus-citron">Jus de Citron</button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main id="products-container">
+            <!-- Les produits s'affichent ici -->
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Informations</h3>
+                <p>Lafayette, Tunis, Tunisie</p>
+                <p>Commercial@larosa.com.tn</p>
+                <p>Tél : <a href="tel:29009900">29 009 900</a> • <a href="tel:94879037">94 879 037</a></p>
+            </div>
+            <div class="footer-column">
+                <h3>Suivez-nous</h3>
+                <p>Facebook : la rosa</p>
+                <p>Instagram : patisserie_la_rosa</p>
+                <p>WhatsApp : 94 879 037</p>
+            </div>
+            <div class="footer-column">
+                <h3>Notre entreprise</h3>
+                <div class="history-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">
+                    ↗ Histoire de La Rosa
+                </div>
+                <div class="history-text">
+                    Née en 1947 au cœur de Lafayette, La Rosa est une pâtisserie familiale transmise de génération en génération. 
+                    Depuis plus de 75 ans, nous préparons avec amour nos croissants chauds, nos sablés fondants et nos spécialités 
+                    qui ont bercé l’enfance de tant de familles tunisiennes. L’odeur du beurre frais et l’accueil chaleureux : voilà l’âme de La Rosa.
+                </div>
+            </div>
+        </div>
+        <p>&copy; 2025 La Rosa - Tous droits réservés.</p>
+    </footer>
+
+    <script>
+       const productsDB = {
+    specialites: [
+        {name: "Petits Fours Assortis",          img: "images/ptfour.png",         desc: "Mini-pâtisseries raffinées"},
+        {name: "Sandwich Spécial La Rosa",       img: "images/sandwich.png",       desc: "Notre recette secrète depuis 1947"},
+        {name: "Croissant au Beurre",            img: "images/croissantnature.png",desc: "Feuilletage parfait"}
+    ],
+    gateaux: [
+        {name: "Gâteau Chocolat",                img: "images/macaronmarocain.png", desc: "Fondant intense"}, // tu peux changer plus tard
+        {name: "Tarte aux Fruits",               img: "images/Tarte aux fruits.png", desc: "Fruits de saison"}
+    ],
+    biscuits: [
+        {name: "Sablés Beurre",                  img: "images/sablé.png",          desc: "Classique et fondant"},
+        {name: "Biscuits Chocolat",              img: "images/biscuit choco.png",  desc: "Croquant et gourmand"}
+    ],
+    croissants: [
+        {name: "Croissant Nature",               img: "images/croissantnature.png", desc: "Pur beurre"},
+        {name: "Croissant Chocolat",             img: "images/croissantchoco.png", desc: "Fourré chocolat"},
+        {name: "Croissant Amande",               img: "images/croissantamande.png", desc: "Crème d’amande"}
+    ],
+    millefeuilles: [
+        {name: "Millefeuille Classique",         img: "images/millefeuille.png",   desc: "Crème pâtissière vanille"},
+        {name: "Millefeuille Chocolat",          img: "images/millefeuille.png",   desc: "Ganache chocolat"}
+    ],
+    tartes: [
+        {name: "Tarte aux Fruits",               img: "images/Tarte aux fruits.png", desc: "Pâte sablée & fruits frais"},
+        {name: "Tarte Amande",                   img: "images/amandine.png",       desc: "Frangipane maison"}
+    ],
+    "petits-fours": [
+        {name: "Assortiment Petits Fours",       img: "images/ptfour.png",         desc: ""},
+        {name: "Petits Fours Salés",             img: "images/ptfour2.png",        desc: ""}
+    ],
+    "macaron-marocain": [
+        {name: "Macaron Marocain",               img: "images/macaronmarocain.png", desc: "Amande, miel, fleur d’oranger"}
+    ],
+    sandwiches: [
+        {name: "Sandwich Spécial La Rosa",       img: "images/sandwich.png",       desc: "Recette familiale"},
+        {name: "Mini Sandwichs",                 img: "images/sandwich.png",       desc: "Parfait pour les réceptions"}
+    ],
+    quiches: [
+        {name: "Quiche Lorraine",                img: "images/quiche.png",         desc: "Lardons & crème"}
+    ],
+    pizzas: [
+        {name: "Pizza Maison",                   img: "images/pizza.png",          desc: "Pâte fine croustillante"}
+    ],
+    "sale-kg": [
+        {name: "Assortiment Salé au kg",         img: "images/salé.png",           desc: "Feuilletés, mini pizzas…"}
+    ]
+};
+
+        const container = document.getElementById('products-container');
+
+        // Affichage d'une catégorie ou spécialité
+        function showCategory(catKey, title) {
+            const items = productsDB[catKey] || [];
+            let html = `<h2 style="text-align:center;color:#8B4513;font-family:'Playfair Display',serif;margin-bottom:1.5rem;">${title}</h2>`;
+            if (items.length === 0) {
+                html += `<p style="text-align:center;color:#8B4513;">Bientôt disponible !</p>`;
+            } else {
+                html += `<div class="product-grid">`;
+                items.forEach(p => {
+                    html += `
+                        <div class="product">
+                            <img src="${p.img}" alt="${p.name}">
+                            <div class="product-info">
+                                <h4>${p.name}</h4>
+                                ${p.desc ? `<p>${p.desc}</p>` : ''}
+                                <p class="price">Prix : ___</p>
+                            </div>
+                        </div>`;
+                });
+                html += `</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        // Clic sur Spécialités ou sous-menu
+        document.querySelectorAll('.specialite-btn, .submenu-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const cat = btn.dataset.cat;
+                const title = btn.textContent.trim();
+                showCategory(cat, title);
+            });
+        });
+
+        // Menu accordéon (se ferme en recliquant)
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = document.getElementById(btn.dataset.target);
+                target.classList.toggle('active');
+            });
+        });
+
+        // Recherche en temps réel
+        document.getElementById('search').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase().trim();
+            if (term.length < 2) { container.innerHTML = ''; return; }
+
+            let found = [];
+            Object.keys(productsDB).forEach(cat => {
+                productsDB[cat].forEach(p => {
+                    if (p.name.toLowerCase().includes(term)) found.push(p);
+                });
+            });
+
+            if (found.length) {
+                let html = `<h2 style="color:#8B4513;text-align:center;">Résultats pour "${term}"</h2><div class="product-grid">`;
+                found.forEach(p => {
+                    html += `
+                        <div class="product">
+                            <img src="${p.img}" alt="${p.name}">
+                            <div class="product-info">
+                                <h4>${p.name}</h4>
+                                <p class="price">Prix : ___</p>
+                            </div>
+                        </div>`;
+                });
+                html += `</div>`;
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `<p style="text-align:center;color:#8B4513;font-size:1.3rem;">Aucun produit trouvé…</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
